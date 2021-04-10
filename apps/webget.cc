@@ -1,12 +1,30 @@
 #include "socket.hh"
 #include "util.hh"
-
+#include "address.hh"
 #include <cstdlib>
 #include <iostream>
 
 using namespace std;
 
 void get_URL(const string &host, const string &path) {
+    TCPSocket sock;
+    const auto &protocol = "http";
+    sock.connect(Address(host, protocol));
+    const string request = "GET " + path + " HTTP/1.1\r\n" + "Host: "+ host + "\r\n" + "Connection: close\r\n\r\n";
+    sock.write(request);
+    string response;
+    const unsigned limit = 1024;
+
+    do {
+        sock.read(response, limit);
+        cout<<response;
+        response.clear();
+
+    } while(not sock.eof());
+
+
+    sock.close();
+
     // Your code here.
 
     // You will need to connect to the "http" service on
@@ -17,8 +35,8 @@ void get_URL(const string &host, const string &path) {
     // (not just one call to read() -- everything) until you reach
     // the "eof" (end of file).
 
-    cerr << "Function called: get_URL(" << host << ", " << path << ").\n";
-    cerr << "Warning: get_URL() has not been implemented yet.\n";
+    //cerr << "Function called: get_URL(" << host << ", " << path << ").\n";
+    //cerr << "Warning: get_URL() has not been implemented yet.\n";
 }
 
 int main(int argc, char *argv[]) {
