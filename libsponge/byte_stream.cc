@@ -55,14 +55,10 @@ void ByteStream::pop_output(const size_t len) {
         return;
     }
     
-    size_t i =0;
     size_t maximumCharsRead = len<buffer_size() ? len : buffer_size(); 
-    while(i<maximumCharsRead) {
-        _stream.pop_front();
-        _capacity++;
-        _bytesRead++;
-        i++;
-    }
+    _stream.erase(0,maximumCharsRead);
+    _capacity+=maximumCharsRead;
+    _bytesRead+=maximumCharsRead;
 
     if(_stream.empty() and input_ended()) {
         _eof = true;

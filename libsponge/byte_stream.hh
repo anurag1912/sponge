@@ -2,7 +2,6 @@
 #define SPONGE_LIBSPONGE_BYTE_STREAM_HH
 
 #include <string>
-#include <list>
 
 //! \brief An in-order byte stream.
 
@@ -24,7 +23,7 @@ class ByteStream {
 
     uint64_t _bytesWritten;
 
-    std::list<unsigned char> _stream;
+    std::string _stream;
 
   public:
     //! Construct a stream with room for `capacity` bytes.
